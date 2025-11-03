@@ -27,12 +27,9 @@ namespace Code
 
         public override void Recharge()
         {
-            _currentCountInClip = _countInClip;
-            OnCompleteUpdateProgress();
-
             if (_bullets.Count > 0)
             {
-                return;
+                DestroyBullet();
             }
 
             for (int i = 0; i < _countInClip; i++)
@@ -41,6 +38,17 @@ namespace Code
                 bullet.Sleep();
                 _bullets.Enqueue(bullet);
             }
+            _currentCountInClip = _countInClip;
+            OnCompleteUpdateProgress();
+        }
+
+        private void DestroyBullet()
+        {
+            foreach (Bullet bullet in _bullets)
+            {
+                Destroy(bullet.gameObject);
+            }
+            _bullets.Clear();
         }
 
         public override void Fire()
